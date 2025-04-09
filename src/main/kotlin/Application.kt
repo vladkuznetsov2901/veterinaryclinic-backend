@@ -1,5 +1,6 @@
 
 
+import database.DatabaseFactory
 import features.login.configureLoginRouting
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
@@ -11,12 +12,7 @@ import plugins.configureRouting
 import org.jetbrains.exposed.sql.Database
 
 fun main() {
-    Database.connect(
-        "jdbc:postgresql://localhost:5432/veterinaryclinic",
-        driver = "org.postgresql.Driver",
-        "postgres",
-        "5891"
-    )
+    DatabaseFactory.init()
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         module()
