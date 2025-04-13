@@ -53,7 +53,7 @@ fun Route.chatRoutes() {
             call.respond(HttpStatusCode.OK, "Message sent")
         }
 
-        post {
+        post("/create_chat") {
             val request = try {
                 call.receive<CreateChatRequest>()
             } catch (e: Exception) {

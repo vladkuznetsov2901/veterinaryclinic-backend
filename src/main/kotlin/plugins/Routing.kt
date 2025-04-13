@@ -1,5 +1,6 @@
 package plugins
 
+import features.chats.chatRoutes
 import features.doctors.doctorRoutes
 import features.get_specialization.getSpecializationsRoute
 import features.promo.uploadImageRoute
@@ -23,5 +24,7 @@ fun Application.configureRouting() {
         getSpecializationsRoute()
 
         doctorRoutes()
+
+        chatRoutes()
     }
 }
