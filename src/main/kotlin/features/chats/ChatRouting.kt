@@ -65,6 +65,18 @@ fun Route.chatRoutes() {
             call.respond(HttpStatusCode.Created, mapOf("chatId" to newChatId))
         }
 
+        get("/with_info/{userId}") {
+            val userId = call.parameters["userId"]?.toIntOrNull()
+            if (userId == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid user ID")
+                return@get
+            }
+
+            val chatsWithInfo = ChatRepository.getChatsWithInfoByUserId(userId)
+            call.respond(chatsWithInfo)
+        }
+
+
 
     }
 }

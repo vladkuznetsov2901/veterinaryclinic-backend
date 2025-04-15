@@ -17,6 +17,7 @@ object Users : Table("users") {
     val userSurname = text("user_surname")
     val userLastname = text("user_lastname").nullable()
     val userDateOfBirth = date("user_date_of_birth")
+    val role = text("role")
 
 
     fun insert(userDTO: UserDTO) {
@@ -45,7 +46,8 @@ object Users : Table("users") {
                     userFirstname = userModel[userName],
                     userSurname = userModel[userSurname],
                     userLastname = userModel[userLastname],
-                    userDateOfBirth = userModel[userDateOfBirth].toString()
+                    userDateOfBirth = userModel[userDateOfBirth].toString(),
+                    role = userModel[role]
 
                 )
             }

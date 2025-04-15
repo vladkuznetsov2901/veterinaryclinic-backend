@@ -7,8 +7,9 @@ import org.jetbrains.exposed.sql.javatime.CurrentDateTime
 object Messages : Table("messages") {
     val messageId = integer("message_id").autoIncrement()
     val chatId = integer("chat_id") references Chats.chatId
-    val senderType = varchar("sender_type", 10) // 'user' or 'doctor'
+    val senderType = varchar("sender_role", 10) // 'user' or 'doctor'
     val messageText = text("message_text")
     val sentAt = datetime("sent_at").defaultExpression(CurrentDateTime)
+    val isRead = bool("is_read")
     override val primaryKey = PrimaryKey(messageId)
 }

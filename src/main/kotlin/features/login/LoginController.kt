@@ -24,11 +24,11 @@ class LoginController(private val call: ApplicationCall) {
                 val token = UUID.randomUUID().toString()
                 Tokens.insert(
                     TokenDTO(
-                        login = receive.login,
+                        userId = userDTO.userId,
                         token = token
                     )
                 )
-                call.respond(LoginResponseRemote(token = token))
+                call.respond(LoginResponseRemote(token = token, role = userDTO.role))
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Invalid password")
             }

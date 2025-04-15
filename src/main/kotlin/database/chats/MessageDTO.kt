@@ -8,5 +8,6 @@ data class MessageDTO(
     val chatId: Int,
     val senderType: String,
     val messageText: String,
-    val sentAt: String
+    val sentAt: String,
+    val isRead: Boolean
 )
