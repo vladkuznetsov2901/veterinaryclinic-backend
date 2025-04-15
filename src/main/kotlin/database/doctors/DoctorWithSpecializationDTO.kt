@@ -13,5 +13,6 @@ data class DoctorWithSpecializationDTO(
     val email: String,
     val specialization: String,
     val rate: Double,
-    val startWorkDate: String
+    val startWorkDate: String,
+    val doctorPassword: String,
 )

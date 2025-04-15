@@ -21,13 +21,16 @@ dependencies {
     implementation("io.ktor:ktor-server-cio-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation("org.jetbrains.exposed:exposed-core:0.46.0")
-    implementation("org.jetbrains.exposed:exposed-dao:0.48.0")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.46.0")
+    val exposedVersion = "0.46.0"
+
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("io.ktor:ktor-server-netty:2.3.1")
     implementation("io.ktor:ktor-server-core:2.3.1")
-    implementation("org.jetbrains.exposed:exposed-java-time:0.43.0")
+    implementation("io.minio:minio:8.5.7")
 
 
 

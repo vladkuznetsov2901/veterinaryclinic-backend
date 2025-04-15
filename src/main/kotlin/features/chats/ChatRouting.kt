@@ -65,16 +65,19 @@ fun Route.chatRoutes() {
             call.respond(HttpStatusCode.Created, mapOf("chatId" to newChatId))
         }
 
-        get("/with_info/{userId}") {
-            val userId = call.parameters["userId"]?.toIntOrNull()
-            if (userId == null) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid user ID")
+        get("/with_info/{role}/{id}") {
+            val role = call.parameters["role"]
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if (role == null || id == null || (role != "user" && role != "doctor")) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid role or ID")
                 return@get
             }
 
-            val chatsWithInfo = ChatRepository.getChatsWithInfoByUserId(userId)
+            val chatsWithInfo = ChatRepository.getChatsByRole(role, id)
             call.respond(chatsWithInfo)
         }
+
 
 
 

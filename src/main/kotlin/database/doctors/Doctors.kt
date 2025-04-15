@@ -1,57 +1,22 @@
 package database.doctors
 
-import database.DatabaseFactory
-import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.ResultSet
 
-class Doctors() {
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.date
 
-    suspend fun getAllDoctorsWithSpecialization(): List<DoctorWithSpecializationDTO> {
-        val result = mutableListOf<DoctorWithSpecializationDTO>()
+object Doctors : Table("doctors") {
+    val doctorId = integer("doctor_id")
+    val doctorName = text("doctor_name")
+    val doctorSurname = text("doctor_surname")
+    val doctorLastname = text("doctor_lastname").nullable()
+    val doctorDateOfBirth = date("doctor_date_of_birth")
+    val doctorPhoneNumber = text("doctor_phone_number")
+    val doctorEmail = text("doctor_email")
+    val doctorSpecialization = integer("doctor_specialization")
+    val doctorRate = decimal("doctor_rate", 2, 1)
+    val doctorStartWorkDate = date("doctor_start_work_date")
+    val doctorPassword = text("doctor_password")
 
-        DatabaseFactory.dbQuery {
-            transaction {
-                exec(
-                    """
-            SELECT 
-                d.doctor_id,
-                d.doctor_name,
-                d.doctor_surname,
-                d.doctor_lastname,
-                d.doctor_date_of_birth,
-                d.doctor_phone_number,
-                d.doctor_email,
-                s.specialization_title,
-                d.doctor_rate,
-                d.doctor_start_work_date
-            FROM doctors d
-            JOIN doctors_specialization s 
-              ON d.doctor_specialization = s.specialization_id
-            """.trimIndent()
-                ) { rs ->
-                    while (rs.next()) {
-                        result.add(
-                            DoctorWithSpecializationDTO(
-                                doctorId = rs.getInt("doctor_id"),
-                                name = rs.getString("doctor_name"),
-                                surname = rs.getString("doctor_surname"),
-                                lastname = rs.getString("doctor_lastname"),
-                                dateOfBirth = rs.getDate("doctor_date_of_birth").toString(),
-                                phoneNumber = rs.getString("doctor_phone_number"),
-                                email = rs.getString("doctor_email"),
-                                specialization = rs.getString("specialization_title"),
-                                rate = rs.getDouble("doctor_rate"),
-                                startWorkDate = rs.getDate("doctor_start_work_date").toString()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-        return result
-
-    }
-
+    override val primaryKey = PrimaryKey(doctorId)
 }
-
 

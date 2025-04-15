@@ -28,7 +28,7 @@ class LoginController(private val call: ApplicationCall) {
                         token = token
                     )
                 )
-                call.respond(LoginResponseRemote(token = token, role = userDTO.role))
+                call.respond(LoginResponseRemote(token = token))
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Invalid password")
             }

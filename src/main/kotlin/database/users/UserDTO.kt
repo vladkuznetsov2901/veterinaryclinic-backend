@@ -8,6 +8,5 @@ data class UserDTO(
     val userFirstname: String,
     val userSurname: String,
     val userLastname: String?,
-    val userDateOfBirth: String,
-    val role: String
+    val userDateOfBirth: String
 )

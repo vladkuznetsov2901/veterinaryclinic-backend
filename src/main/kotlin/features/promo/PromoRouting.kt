@@ -1,27 +1,37 @@
 package features.promo
 
-import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
+import database.store.MinioClientProvider
 import io.ktor.server.routing.*
+import io.ktor.server.response.*
 import io.ktor.http.*
-import io.ktor.http.content.*
-import java.io.File
-import java.util.*
+import io.ktor.server.application.*
+import io.minio.MinioClient
+import io.minio.ListObjectsArgs
 
 fun Route.uploadImageRoute() {
     get("/promo_images") {
-        val uploadsDir = File("uploads")
-        if (!uploadsDir.exists()) {
-            call.respond(HttpStatusCode.NotFound, "uploads folder not found")
-            return@get
+        val minioClient = MinioClientProvider.client
+
+        val bucketName = "promo-images"
+
+        try {
+            val result = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                    .bucket(bucketName)
+                    .prefix("promo")
+                    .recursive(true)
+                    .build()
+            )
+
+            val imageUrls = result.asSequence()
+                .mapNotNull { it.get()?.objectName() }
+                .filter { it.endsWith(".png") }
+                .map { "http://10.0.2.2:9000/$bucketName/$it" }
+                .toList()
+
+            call.respond(imageUrls)
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.InternalServerError, "Failed to fetch images: ${e.message}")
         }
-
-        val imageUrls = uploadsDir.listFiles { file -> file.isFile }?.map { file ->
-            "http://10.0.2.2:8080/uploads/${file.name}"
-        } ?: emptyList()
-
-        call.respond(imageUrls)
     }
-
 }
