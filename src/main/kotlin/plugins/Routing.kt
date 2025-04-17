@@ -4,6 +4,7 @@ import features.chats.chatRoutes
 import features.doctors.doctorRoutes
 import features.get_specialization.getSpecializationsRoute
 import features.promo.uploadImageRoute
+import features.recovery.configureRestoreRouting
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.response.*
@@ -26,5 +27,7 @@ fun Application.configureRouting() {
         doctorRoutes()
 
         chatRoutes()
+
+        configureRestoreRouting()
     }
 }

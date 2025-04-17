@@ -1,11 +1,14 @@
 package database.users
 
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.javatime.date
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
+
 
 object Users : Table("users") {
 
@@ -53,4 +56,13 @@ object Users : Table("users") {
         }
 
     }
+
+    fun updatePassword(email: String, newPassword: String) {
+        transaction {
+            Users.update({ userEmail.eq(email)  }) {
+                it[userPassword] = newPassword
+            }
+        }
+    }
+
 }

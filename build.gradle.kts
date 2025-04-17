@@ -31,6 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:2.3.1")
     implementation("io.ktor:ktor-server-core:2.3.1")
     implementation("io.minio:minio:8.5.7")
+    implementation("com.sun.mail:javax.mail:1.6.2")
 
 
 
