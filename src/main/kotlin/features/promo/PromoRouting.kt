@@ -26,7 +26,7 @@ fun Route.uploadImageRoute() {
             val imageUrls = result.asSequence()
                 .mapNotNull { it.get()?.objectName() }
                 .filter { it.endsWith(".png") }
-                .map { "http://10.0.2.2:9000/$bucketName/$it" }
+                .map { "http://192.168.1.5:9000/$bucketName/$it" }
                 .toList()
 
             call.respond(imageUrls)

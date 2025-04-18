@@ -12,10 +12,11 @@ class EmailService {
 
     fun sendRecoveryCode(recipientEmail: String, code: String) {
         val props = Properties()
-        props["mail.smtp.auth"] = "true"
-        props["mail.smtp.starttls.enable"] = "true"
-        props["mail.smtp.host"] = "smtp.gmail.com"
+        props["mail.smtp.host"] = "smtp.mail.ru"
         props["mail.smtp.port"] = "587"
+        props["mail.smtp.starttls.enable"] = "true"
+        props["mail.smtp.auth"] = "true"
+
 
         val session = Session.getInstance(props, object : Authenticator() {
             override fun getPasswordAuthentication(): PasswordAuthentication {
