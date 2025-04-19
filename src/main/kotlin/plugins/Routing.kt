@@ -3,6 +3,8 @@ package plugins
 import features.chats.chatRoutes
 import features.doctors.doctorRoutes
 import features.get_specialization.getSpecializationsRoute
+import features.pets.petsRoutes
+import features.prescription.prescriptionsRoutes
 import features.promo.uploadImageRoute
 import features.recovery.configureRestoreRouting
 import io.ktor.server.application.*
@@ -16,10 +18,6 @@ fun Application.configureRouting() {
             call.respondText("Hello World!")
         }
 
-        static("/uploads") {
-            files("uploads")
-        }
-
         uploadImageRoute()
 
         getSpecializationsRoute()
@@ -29,5 +27,10 @@ fun Application.configureRouting() {
         chatRoutes()
 
         configureRestoreRouting()
+
+        petsRoutes()
+
+        prescriptionsRoutes()
+
     }
 }
