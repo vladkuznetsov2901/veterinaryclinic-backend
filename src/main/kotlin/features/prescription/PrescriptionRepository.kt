@@ -1,5 +1,6 @@
 package features.prescription
 
+import database.DatabaseFactory.dbQuery
 import database.prescription.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -7,6 +8,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.lessEq
 import org.jetbrains.exposed.sql.javatime.CurrentDate
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDateTime
 
 object PrescriptionRepository {
     fun getActivePrescriptionsByPet(petId: Int): List<PrescriptionDto> = transaction {
@@ -32,6 +34,7 @@ object PrescriptionRepository {
 
                     val medication = MedicationDto(
                         medicationName = row[Medications.medicationName],
+                        medicationDosage = row[Medications.medicationDosage],
                         imageUrl = row[Medications.imageUrl]
                     )
 
@@ -39,6 +42,7 @@ object PrescriptionRepository {
                         .selectAll().where { MedicationSchedule.item eq itemId }
                         .map {
                             MedicationScheduleDto(
+                                scheduleId = it[MedicationSchedule.scheduleId],
                                 plannedTime = it[MedicationSchedule.plannedTime].toString(),
                                 isTaken = it[MedicationSchedule.isTaken],
                                 takenTime = it[MedicationSchedule.takenTime]?.toString()
@@ -68,6 +72,13 @@ object PrescriptionRepository {
             )
 
         }
+    }
+
+    fun markScheduleAsTaken(scheduleId: Int): Boolean = transaction {
+        MedicationSchedule.update({ MedicationSchedule.scheduleId eq scheduleId }) {
+            it[isTaken] = not(isTaken)
+            it[takenTime] = LocalDateTime.now()
+        } > 0
     }
 }
 

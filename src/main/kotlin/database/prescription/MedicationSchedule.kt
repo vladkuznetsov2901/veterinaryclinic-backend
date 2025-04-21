@@ -10,4 +10,7 @@ object MedicationSchedule : Table("medication_schedule") {
     val plannedTime = datetime("planned_time")
     val isTaken = bool("is_taken").default(false)
     val takenTime = datetime("taken_time").nullable()
+
+    override val primaryKey = PrimaryKey(MedicationSchedule.scheduleId)
+
 }
