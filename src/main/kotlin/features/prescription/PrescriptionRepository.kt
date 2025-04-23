@@ -25,9 +25,7 @@ object PrescriptionRepository {
             val items = PrescriptionItems
                 .innerJoin(Medications)
                 .selectAll().where {
-                    (PrescriptionItems.prescriptionId eq prescId) and
-                            (PrescriptionItems.startDate lessEq CurrentDate) and
-                            (PrescriptionItems.endDate greaterEq CurrentDate)
+                    PrescriptionItems.prescriptionId eq prescId
                 }
                 .map { row ->
                     val itemId = row[PrescriptionItems.itemId]
